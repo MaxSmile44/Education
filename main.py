@@ -1,33 +1,21 @@
-from books_sdk import get_book_by_id, get_author
+from PIL import Image
 
-print(get_author(get_book_by_id('AAECTkuGjWo1Imwr-_6UrN-nzbo89sd3WSM', 1)))
+image = Image.open('monro.jpg')
+image = image.convert('RGB')
+red, green, blue = image.split()
 
+pixel_offset = 50
 
-# Гипотеза 1: Неправильные скобки
-# Способ проверки: методом клика пройтись по какой скобке
-# Установленный факт: получилось ((()))
-# Вывод: Гипотеза опроверглась, со скобками всё в порядке
+red_left = red.crop((pixel_offset, 0, red.width, red.height))
+blue_right = blue.crop((0, 0, (blue.width - pixel_offset), blue.height))
 
-# Гипотеза 2: Ошибка во вложенной функции
-# Способ проверки: Запустить вложенную функцию отдельно от внешней
-# Код для проверки: print(get_book_by_id(1, 'AAECTkuGjWo1Imwr-_6UrN-nzbo89sd3WSM'))
-# Установленный факт: ошибка во вложенной функции get_book_by_id
-# Вывод: Гипотеза подтвердилась
+red_middle = red.crop((pixel_offset/2, 0, (red.width - pixel_offset/2), red.height))
+blue_middle = blue.crop((pixel_offset/2, 0, (blue.width - pixel_offset/2), blue.height))
+green_middle = green.crop((pixel_offset/2, 0, (green.width - pixel_offset/2), green.height))
 
-# Гипотеза 3: Проблема в типе данных, '1' должно быть числом
-# Способ проверки: Запустить код, где 1 имеет тип данных число
-# Код для проверки: print(get_book_by_id(1, 'AAECTkuGjWo1Imwr-_6UrN-nzbo89sd3WSM'))
-# Установленный факт: ошибка не изменилась и с типом данных для 1 число
-# Вывод: Гипотеза опроверглась
+new_red = Image.blend(red_left, red_middle, 0.5)
+new_blue = Image.blend(blue_right, blue_middle, 0.5)
 
-# Гипотеза 4: Книги с номером 1 не существует
-# Способ проверки: меняем номер книги
-# Код для проверки: print(get_book_by_id(5, 'AAECTkuGjWo1Imwr-_6UrN-nzbo89sd3WSM'))
-# Установленный факт: ошибка не изменилась, другие номера книг тоже не подходят
-# Вывод: Гипотеза опроверглась
-
-# Гипотеза 5: Аргументы перепутаны местами
-# Способ проверки: меняем первый и второй аргументы местами
-# Код для проверки: print(get_book_by_id('AAECTkuGjWo1Imwr-_6UrN-nzbo89sd3WSM', 1))
-# Установленный факт: ошибка исчезла
-# Вывод: Гипотеза подтвердилась
+new_image = Image.merge('RGB', (new_red, green_middle, new_blue))
+new_image.thumbnail((80, 80))
+new_image.save('new_image.jpg')
