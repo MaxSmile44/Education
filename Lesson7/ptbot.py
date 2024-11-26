@@ -2,7 +2,7 @@ import logging
 import telegram
 import traceback
 import sys
-import imghdr
+
 
 from telegram.ext import Filters
 from telegram.ext import MessageHandler
