@@ -31,7 +31,7 @@ def render_progressbar(total, iteration, prefix='', suffix='', length=30, fill='
 
 if __name__ == '__main__':
     load_dotenv()
-    tg_token = os.getenv("telegram_token")
+    tg_token = os.getenv("TELEGRAM_TOKEN")
     bot = ptbot.Bot(tg_token)
 
     bot.reply_on_message(reply)
