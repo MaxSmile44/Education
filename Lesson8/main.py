@@ -60,17 +60,15 @@ def create_map(your_location, markers):
     map.save("index.html")
 
 
-def main(file_name, apikey, address):
-    place_coordinates = {fetch_coordinates(apikey, address)}
-    sorted_coffee_list = sorted(create_new_tuple(file_name, place_coordinates), key=get_distance)[:5]
-    create_map(list(place_coordinates)[0], sorted_coffee_list)
-    for nearest_coffee in sorted_coffee_list:
-        print(nearest_coffee['title'])
-
-
-if __name__ == '__main__':
+def main():
     load_dotenv()
     file_name = 'coffee.json'
     apikey = os.getenv('YANDEX_GEO_API')
     address = input('Где вы находитесь? ')
-    main(file_name, apikey, address)
+    place_coordinates = {fetch_coordinates(apikey, address)}
+    sorted_coffee_list = sorted(create_new_tuple(file_name, place_coordinates), key=get_distance)[:5]
+    create_map(list(place_coordinates)[0], sorted_coffee_list)
+
+
+if __name__ == '__main__':
+    main()
