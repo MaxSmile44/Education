@@ -30,11 +30,6 @@ def fetch_coordinates(apikey, address):
     return lat, lon
 
 
-def find_gps_coordinates(apikey, address):
-    place_coordinates = {fetch_coordinates(apikey, address)}
-    return place_coordinates
-
-
 def create_new_tuple(file_name, place_coordinates):
     item_final_data = {}
     final_data = []
@@ -66,7 +61,7 @@ def create_map(your_location, markers):
 
 
 def main(file_name, apikey, address):
-    place_coordinates = find_gps_coordinates(apikey, address)
+    place_coordinates = {fetch_coordinates(apikey, address)}
     sorted_coffee_list = sorted(create_new_tuple(file_name, place_coordinates), key=get_distance)[:5]
     create_map(list(place_coordinates)[0], sorted_coffee_list)
     for nearest_coffee in sorted_coffee_list:
