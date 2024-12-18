@@ -9,10 +9,6 @@ def shorten_link(token, url):
     vk_url = 'https://api.vk.ru/method/utils.getShortLink'
     payload = {'v': '5.81', 'access_token': token, 'url': url}
     response = requests.get(vk_url, params=payload)
-    try:
-        response.raise_for_status()
-    except requests.exceptions.HTTPError as error:
-        print(f'HTTP error occurred: {error}')
     decoded_response = response.json()
     if 'error' in decoded_response:
         raise requests.exceptions.HTTPError(decoded_response['error'])
@@ -24,10 +20,6 @@ def count_clicks(token, url):
     url = urlparse(url).path.replace('/', '').replace('vk.cc', '')
     payload = {'v': '5.81', 'access_token': token, 'key': url}
     response = requests.get(vk_url, params=payload)
-    try:
-        response.raise_for_status()
-    except requests.exceptions.HTTPError as error:
-        print(f'HTTP error occurred: {error}')
     decoded_response = response.json()
     if 'error' in decoded_response:
         raise requests.exceptions.HTTPError(decoded_response['error'])
@@ -50,14 +42,16 @@ def main():
     except KeyError as error:
         print(f'KeyError: {error}')
         raise SystemExit
-    try:
-        if is_shorten_link(token, url):
+    if is_shorten_link(token, url):
+        try:
             print(f'Количество переходов: {count_clicks(token, url)}')
-        else:
+        except requests.exceptions.HTTPError as error:
+            print(f'HTTP error occurred: {error}')
+    else:
+        try:
             print(f'Сокращенная ссылка: {shorten_link(token, url)}')
-    except requests.exceptions.HTTPError as error:
-        print(f'HTTP error occurred: {error}')
-        raise SystemExit
+        except requests.exceptions.HTTPError as error:
+            print(f'HTTP error occurred: {error}')
 
 
 if __name__ == '__main__':
