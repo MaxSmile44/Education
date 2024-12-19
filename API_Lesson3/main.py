@@ -37,7 +37,7 @@ def is_shorten_link(token, url):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-l', '--link', help='Ссылка')
+    parser.add_argument('link', help='Ссылка')
     args = parser.parse_args()
     url = args.link
     try:
