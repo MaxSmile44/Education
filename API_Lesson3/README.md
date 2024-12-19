@@ -1,8 +1,12 @@
 # Обрезка ссылок с помощью VK
 
 ### Как запустить
-Вводим в терминале 'python main.py -l {ваша ссылка}' или 'python main.py --link {ваша ссылка}'
-![[Pasted image 20241219135201.png]]
+Вводим в терминале 'python main.py {ваша ссылка}'.
+
+![image](https://github.com/user-attachments/assets/1bdf0d0d-3368-40db-9967-cf303e68ced8)
+
+![image](https://github.com/user-attachments/assets/749cc4ca-9587-4c9b-ba1a-d9909596d256)
+
 ### Структура программы
 
 #### is_shorten_link
